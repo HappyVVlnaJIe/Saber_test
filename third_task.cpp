@@ -17,7 +17,7 @@ class List {
 public:
 	void Serialize(FILE* file); // сохранение в файл (файл открыт с помощью fopen(path, "wb"))
 	void Deserialize(FILE* file); // загрузка из файла (файл открыт с помощью fopen(path, "rb"))
- // вернуть private
+private:
 	ListNode* head = nullptr;
 	ListNode* tail = nullptr;
 	int count;
