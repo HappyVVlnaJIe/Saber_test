@@ -5,33 +5,33 @@
 
 #include "errors.h"
 
-// структуру ListNode модифицировать нельзя
+// СЃС‚СЂСѓРєС‚СѓСЂСѓ ListNode РјРѕРґРёС„РёС†РёСЂРѕРІР°С‚СЊ РЅРµР»СЊР·СЏ
 struct ListNode {
 	ListNode* prev;
 	ListNode* next;
-	ListNode* rand; // указатель на произвольный элемент данного списка, либо NULL
+	ListNode* rand; // СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїСЂРѕРёР·РІРѕР»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚ РґР°РЅРЅРѕРіРѕ СЃРїРёСЃРєР°, Р»РёР±Рѕ NULL
 	std::string data;
 };
 
 class List {
 public:
-	void Serialize(FILE* file); // сохранение в файл (файл открыт с помощью fopen(path, "wb"))
-	void Deserialize(FILE* file); // загрузка из файла (файл открыт с помощью fopen(path, "rb"))
- // вернуть private
+	void Serialize(FILE* file); // СЃРѕС…СЂР°РЅРµРЅРёРµ РІ С„Р°Р№Р» (С„Р°Р№Р» РѕС‚РєСЂС‹С‚ СЃ РїРѕРјРѕС‰СЊСЋ fopen(path, "wb"))
+	void Deserialize(FILE* file); // Р·Р°РіСЂСѓР·РєР° РёР· С„Р°Р№Р»Р° (С„Р°Р№Р» РѕС‚РєСЂС‹С‚ СЃ РїРѕРјРѕС‰СЊСЋ fopen(path, "rb"))
+ // РІРµСЂРЅСѓС‚СЊ private
 	ListNode* head = nullptr;
 	ListNode* tail = nullptr;
 	int count;
 	const char* separator = " ";
-	const char not_separator = '|'; // для дефолтного значения, т.к. буду считывать по символьно до разделителя
+	const char not_separator = '|'; // РґР»СЏ РґРµС„РѕР»С‚РЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ, С‚.Рє. Р±СѓРґСѓ СЃС‡РёС‚С‹РІР°С‚СЊ РїРѕ СЃРёРјРІРѕР»СЊРЅРѕ РґРѕ СЂР°Р·РґРµР»РёС‚РµР»СЏ
 	void Clear();
 };
 
-// записывать адрес текущей ноды, записывать адрес ранд ноды, записывать строку, когда десерилизую пройтись 2 раза(второй, чтобы ранды установить всем)
+// Р·Р°РїРёСЃС‹РІР°С‚СЊ Р°РґСЂРµСЃ С‚РµРєСѓС‰РµР№ РЅРѕРґС‹, Р·Р°РїРёСЃС‹РІР°С‚СЊ Р°РґСЂРµСЃ СЂР°РЅРґ РЅРѕРґС‹, Р·Р°РїРёСЃС‹РІР°С‚СЊ СЃС‚СЂРѕРєСѓ, РєРѕРіРґР° РґРµСЃРµСЂРёР»РёР·СѓСЋ РїСЂРѕР№С‚РёСЃСЊ 2 СЂР°Р·Р°(РІС‚РѕСЂРѕР№, С‡С‚РѕР±С‹ СЂР°РЅРґС‹ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РІСЃРµРј)
 void List::Serialize(FILE* file)
 {
 	ListNode* node = head;
 	std::unordered_map<ListNode*, int> map;
-	int i = 1; // т.к. atoi возвращает 0 если не получилось преобразовать, то индексирую с 1(только для сериализации и десериализации)
+	int i = 1; // С‚.Рє. atoi РІРѕР·РІСЂР°С‰Р°РµС‚ 0 РµСЃР»Рё РЅРµ РїРѕР»СѓС‡РёР»РѕСЃСЊ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ, С‚Рѕ РёРЅРґРµРєСЃРёСЂСѓСЋ СЃ 1(С‚РѕР»СЊРєРѕ РґР»СЏ СЃРµСЂРёР°Р»РёР·Р°С†РёРё Рё РґРµСЃРµСЂРёР°Р»РёР·Р°С†РёРё)
 	while (node)
 	{
 		map[node] = i;
@@ -79,8 +79,8 @@ void List::Clear()
 void List::Deserialize(FILE* file)
 {
 	Clear();
-	std::unordered_map<int, int> map_for_rand; // для каждого индекса на какой(по индексу) он указывает в rand
-	std::vector<ListNode*> list_node_index_map; // для каждого индекса храню его адрес 
+	std::unordered_map<int, int> map_for_rand; // РґР»СЏ РєР°Р¶РґРѕРіРѕ РёРЅРґРµРєСЃР° РЅР° РєР°РєРѕР№(РїРѕ РёРЅРґРµРєСЃСѓ) РѕРЅ СѓРєР°Р·С‹РІР°РµС‚ РІ rand
+	std::vector<ListNode*> list_node_index_map; // РґР»СЏ РєР°Р¶РґРѕРіРѕ РёРЅРґРµРєСЃР° С…СЂР°РЅСЋ РµРіРѕ Р°РґСЂРµСЃ 
 	std::string size = "";
 	char buffer[2] = { not_separator };
 
@@ -96,7 +96,7 @@ void List::Deserialize(FILE* file)
 		return;
 	}
 	ListNode* cur_node;
-	int cur_index = 1; // т.к. atoi возвращает 0 если не получилось преобразовать, то индексирую с 1(только для сериализации и десериализации)
+	int cur_index = 1; // С‚.Рє. atoi РІРѕР·РІСЂР°С‰Р°РµС‚ 0 РµСЃР»Рё РЅРµ РїРѕР»СѓС‡РёР»РѕСЃСЊ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ, С‚Рѕ РёРЅРґРµРєСЃРёСЂСѓСЋ СЃ 1(С‚РѕР»СЊРєРѕ РґР»СЏ СЃРµСЂРёР°Р»РёР·Р°С†РёРё Рё РґРµСЃРµСЂРёР°Р»РёР·Р°С†РёРё)
 	while (!feof(file) && cur_index <= count)
 	{
 		buffer[0] = not_separator;
@@ -174,7 +174,7 @@ void List::Deserialize(FILE* file)
 		fclose(file);
 		throw CountException();
 	}
-	fgets(buffer, 2, file); //считываю \0
+	fgets(buffer, 2, file); //СЃС‡РёС‚С‹РІР°СЋ \0
 	if (!feof(file))
 	{
 		throw EofException();
@@ -190,9 +190,9 @@ void List::Deserialize(FILE* file)
 		{
 			list_node_index_map[i]->next = list_node_index_map[i + 1];
 		}
-		if (map_for_rand[i + 1] != -1)  //т.к. индексировал с 1
+		if (map_for_rand[i + 1] != -1)  //С‚.Рє. РёРЅРґРµРєСЃРёСЂРѕРІР°Р» СЃ 1
 		{
-			list_node_index_map[i]->rand = list_node_index_map[map_for_rand[i + 1] - 1]; //т.к. индексировал с 1, а в векторе индексация с 0
+			list_node_index_map[i]->rand = list_node_index_map[map_for_rand[i + 1] - 1]; //С‚.Рє. РёРЅРґРµРєСЃРёСЂРѕРІР°Р» СЃ 1, Р° РІ РІРµРєС‚РѕСЂРµ РёРЅРґРµРєСЃР°С†РёСЏ СЃ 0
 		}
 	}
 }

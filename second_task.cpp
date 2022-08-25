@@ -1,5 +1,5 @@
 #include <iostream>
-void RemoveDups(char* str) // задать вопрос про строку "AA BB AA" что будет в результате? 2 указателя сделать и просто перекидывать + потом сделать конец '\0'
+void RemoveDups(char* str) 
 {
 	char* last = str;
 	while (*str != '\0')
